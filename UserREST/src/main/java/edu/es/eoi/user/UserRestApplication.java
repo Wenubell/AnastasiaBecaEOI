@@ -1,13 +1,13 @@
-package com.example.demo;
+package edu.es.eoi.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class UserRestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(UserRestApplication.class, args);
 	}
 
 }
