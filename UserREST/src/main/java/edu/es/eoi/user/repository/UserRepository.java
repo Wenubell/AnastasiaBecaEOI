@@ -1,15 +1,18 @@
 package edu.es.eoi.user.repository;
 
 import java.sql.Connection;
-
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
 import edu.es.eoi.user.domain.User;
 
+@Repository
 public class UserRepository implements MyRepository<User> {
 
 	private Connection conexion() {
@@ -36,7 +39,7 @@ public class UserRepository implements MyRepository<User> {
 
 		try {
 			PreparedStatement st = con
-					.prepareStatement("select idUsuario, nombre, fecha, premium, saldo from usuario where idUsuario=?");
+					.prepareStatement("SELECT idUsuario, nombre, fecha, premium, saldo FROM usuario WHERE idUsuario=?");
 			st.setInt(1, id);
 
 			ResultSet rs = st.executeQuery();
@@ -50,6 +53,8 @@ public class UserRepository implements MyRepository<User> {
 				entity.setSaldo(rs.getDouble("saldo"));
 			}
 
+			con.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -58,8 +63,24 @@ public class UserRepository implements MyRepository<User> {
 	}
 
 	public void create(User e) {
-		// PreparedStatement st = con.prepareStatement("INSERT INTO usuario (nombre,
-		// premium, saldo) VALUES (?,?,?)");
+
+		Connection con = conexion();
+
+		try {
+			PreparedStatement st = con
+					.prepareStatement("INSERT INTO usuario (nombre, fecha, premium, saldo) VALUES (?,?,?,?)");
+			st.setString(1, e.getNombre());
+			st.setDate(2, new Date(e.getFecha().getTime()));
+			st.setBoolean(3, e.getPremium());
+			st.setDouble(4, e.getSaldo());
+
+			st.executeUpdate();
+
+			con.close();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 
 	}
 

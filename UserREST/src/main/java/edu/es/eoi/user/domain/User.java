@@ -2,8 +2,7 @@ package edu.es.eoi.user.domain;
 
 import java.util.Date;
 
-import org.springframework.boot.context.properties.ConstructorBinding;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class User {
 	
+	@JsonIgnore
 	private Integer id;
 	private String nombre;
 	private Date fecha;
