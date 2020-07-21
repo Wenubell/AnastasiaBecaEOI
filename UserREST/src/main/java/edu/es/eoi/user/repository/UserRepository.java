@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -85,18 +86,77 @@ public class UserRepository implements MyRepository<User> {
 	}
 
 	public void update(User e) {
-		// TODO Auto-generated method stub
+		Connection con = conexion();
+		
+		try {
+			PreparedStatement st = con
+					.prepareStatement("UPDATE usuario set nombre=?, fecha=?, premium=?, saldo=? WHERE idUsuario=?");
+			
+			
+			st.setString(1, e.getNombre());
+			st.setDate(2, new Date(e.getFecha().getTime()));
+			st.setBoolean(3, e.getPremium());
+			st.setDouble(4, e.getSaldo());
+			
+			st.setInt(5,e.getId());
+			
+
+			st.executeUpdate();
+
+			con.close();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 
 	}
 
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		Connection con = conexion();
+
+		try {
+			PreparedStatement st = con
+					.prepareStatement("DELETE FROM rest.usuario WHERE idUsuario=?");
+			st.setInt(1, id);
+
+			st.executeUpdate();
+
+			con.close();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 
 	}
 
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = conexion();
+		User entity = null;
+		List<User> lista = new ArrayList<User>();
+
+		try {
+			PreparedStatement st = con
+					.prepareStatement("SELECT idUsuario, nombre, fecha, premium, saldo FROM usuario");
+
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				entity = new User();
+				entity.setId(rs.getInt("idUsuario"));
+				entity.setNombre(rs.getString("nombre"));
+				entity.setFecha(rs.getDate("fecha"));
+				entity.setPremium(rs.getBoolean("premium"));
+				entity.setSaldo(rs.getDouble("saldo"));
+				lista.add(entity);
+			}
+
+			con.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return lista;
 	}
 
 }
