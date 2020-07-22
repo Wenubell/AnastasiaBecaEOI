@@ -2,7 +2,7 @@ package edu.es.eoi.user.repository;
 
 import java.util.List;
 
-import edu.es.eoi.user.domain.User;
+import edu.es.eoi.user.entity.User;
 
 public interface MyRepository<E> {
 	

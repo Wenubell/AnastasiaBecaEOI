@@ -12,7 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import edu.es.eoi.user.domain.User;
+import edu.es.eoi.user.entity.User;
 
 @Repository
 @Qualifier("JDBC")
