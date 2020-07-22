@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.es.eoi.user.domain.User;
+import edu.es.eoi.user.entity.User;
 import edu.es.eoi.user.service.UserService;
 
 @RestController
@@ -49,7 +49,7 @@ public class UserController {
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 
-		if (!id.equals(user.getId())) {
+		if (!id.equals(user.getIdUsuario())) {
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		} else {
 			// user.setId(id);

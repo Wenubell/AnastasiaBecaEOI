@@ -3,16 +3,18 @@ package edu.es.eoi.user.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import edu.es.eoi.user.domain.User;
-import edu.es.eoi.user.repository.UserRepositoryJDBCImpl;
+import edu.es.eoi.user.entity.User;
+import edu.es.eoi.user.repository.MyRepository;
 
 @Service
 public class UserService {
 
 	@Autowired
-	UserRepositoryJDBCImpl repository;
+	@Qualifier("JPA")
+	private MyRepository<User> repository;
 
 	public User findUserById(Integer id) {
 		return repository.findById(id);

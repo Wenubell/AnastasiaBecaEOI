@@ -12,7 +12,7 @@ import lombok.Setter;
 public class User {
 	
 	
-	private Integer id;
+	private Integer idUsuario;
 	private String nombre;
 	private Date fecha;
 	private Boolean premium;
