@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class User {
 	
-	@JsonIgnore
+	
 	private Integer id;
 	private String nombre;
 	private Date fecha;

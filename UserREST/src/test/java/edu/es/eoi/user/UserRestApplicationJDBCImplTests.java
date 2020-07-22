@@ -10,24 +10,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import edu.es.eoi.user.domain.User;
-import edu.es.eoi.user.repository.UserRepository;
+import edu.es.eoi.user.repository.UserRepositoryJDBCImpl;
 
-class UserRestApplicationTests {
+class UserRestApplicationJDBCImplTests {
 
 	@Test
 	void testFindUserById() {
 
-		UserRepository repo = new UserRepository();
-		User user = repo.findById(9);
+		UserRepositoryJDBCImpl repo = new UserRepositoryJDBCImpl();
+		User user = repo.findById(1);
 
-		assertThat(user.getNombre().contentEquals("jj"));
+		assertThat(user.getNombre().contentEquals("JJ"));
 
 	}
 
 	@Test
 	void testCreateUser() {
 
-		UserRepository repo = new UserRepository();
+		UserRepositoryJDBCImpl repo = new UserRepositoryJDBCImpl();
 		User user =  new User();
 		
 		user.setFecha(Calendar.getInstance().getTime());
@@ -42,7 +42,7 @@ class UserRestApplicationTests {
 	@Test
 	void testUpdateUser() {
 
-		UserRepository repo = new UserRepository();
+		UserRepositoryJDBCImpl repo = new UserRepositoryJDBCImpl();
 		User user =  repo.findById(1);
 		
 		user.setFecha(Calendar.getInstance().getTime());

@@ -28,6 +28,11 @@ public class UserController {
 		return ResponseEntity.ok(service.findUserById(id));
 	}
 
+	@GetMapping("users")
+	public ResponseEntity<List<User>> finAll() {
+		return ResponseEntity.ok(service.findAll());
+	}
+
 	@PostMapping("users")
 	public ResponseEntity<String> createUser(@RequestBody User user) {
 
@@ -59,11 +64,6 @@ public class UserController {
 	public ResponseEntity<String> deleteById(@PathVariable Integer id) {
 		service.deleteById(id);
 		return new ResponseEntity<String>(HttpStatus.ACCEPTED);
-	}
-
-	@GetMapping("users")
-	public ResponseEntity<List<User>> finAll() {
-		return ResponseEntity.ok(service.findAll());
 	}
 
 }

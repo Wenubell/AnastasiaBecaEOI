@@ -9,15 +9,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import edu.es.eoi.user.domain.User;
 
 @Repository
-public class UserRepository implements MyRepository<User> {
+@Qualifier("JDBC")
+public class UserRepositoryJDBCImpl implements MyRepository<User> {
 
 	private Connection conexion() {
-		String url = "jdbc:mysql://localhost:3306/rest?serverTimezone=UTC";
+		String url = "jdbc:mysql://localhost:3306/jdbcjpa?serverTimezone=UTC";
 		String user = "root";
 		String pass = "1234";
 
@@ -87,19 +89,17 @@ public class UserRepository implements MyRepository<User> {
 
 	public void update(User e) {
 		Connection con = conexion();
-		
+
 		try {
 			PreparedStatement st = con
 					.prepareStatement("UPDATE usuario set nombre=?, fecha=?, premium=?, saldo=? WHERE idUsuario=?");
-			
-			
+
 			st.setString(1, e.getNombre());
 			st.setDate(2, new Date(e.getFecha().getTime()));
 			st.setBoolean(3, e.getPremium());
 			st.setDouble(4, e.getSaldo());
-			
-			st.setInt(5,e.getId());
-			
+
+			st.setInt(5, e.getId());
 
 			st.executeUpdate();
 
@@ -115,8 +115,7 @@ public class UserRepository implements MyRepository<User> {
 		Connection con = conexion();
 
 		try {
-			PreparedStatement st = con
-					.prepareStatement("DELETE FROM rest.usuario WHERE idUsuario=?");
+			PreparedStatement st = con.prepareStatement("DELETE FROM rest.usuario WHERE idUsuario=?");
 			st.setInt(1, id);
 
 			st.executeUpdate();
@@ -135,8 +134,7 @@ public class UserRepository implements MyRepository<User> {
 		List<User> lista = new ArrayList<User>();
 
 		try {
-			PreparedStatement st = con
-					.prepareStatement("SELECT idUsuario, nombre, fecha, premium, saldo FROM usuario");
+			PreparedStatement st = con.prepareStatement("SELECT idUsuario, nombre, fecha, premium, saldo FROM usuario");
 
 			ResultSet rs = st.executeQuery();
 
