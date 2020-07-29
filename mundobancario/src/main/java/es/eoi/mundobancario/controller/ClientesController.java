@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.eoi.mundobancario.entity.Cliente;
-import es.eoi.mundobancario.service.ClienteService;
+import es.eoi.mundobancario.service.ClienteServiceImpl;
 
 @RestController
 public class ClientesController {
 	
 	@Autowired
-	ClienteService service;
+	ClienteServiceImpl service;
 	
 	@GetMapping("cliente/{id}")
 	@ResponseBody
