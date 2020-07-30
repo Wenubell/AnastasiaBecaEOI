@@ -40,6 +40,8 @@ public class ClientesController {
 		return ResponseEntity.ok(service.loginUsuario(usuario, pass));
 	}
 	
+	/* TODO acabar función
+	 */
 	@GetMapping("clientes/{id}/cuentas")
 	@ResponseBody
 	public ResponseEntity<ClienteDto> findCuentasUsuario(@PathVariable Integer id) {

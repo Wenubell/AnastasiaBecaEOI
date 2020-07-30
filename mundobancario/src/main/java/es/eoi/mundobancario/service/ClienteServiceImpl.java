@@ -50,6 +50,10 @@ public class ClienteServiceImpl implements ClienteService {
 		}
 	}
 	
+	public Object findClienteCompleto() {
+		return null;
+	}
+	
 	private ClienteDto convertToDto(Cliente cliente) {
 		ClienteDto dto = new ClienteDto();
 		dto.setEmail(cliente.getEmail());

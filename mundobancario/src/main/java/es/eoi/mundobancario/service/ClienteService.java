@@ -17,4 +17,6 @@ public interface ClienteService {
 	public void crearUsuario(ClienteDto cliente);
 
 	public void updateCliente(ClienteDto cliente);
+
+	public Object findClienteCompleto();
 }
