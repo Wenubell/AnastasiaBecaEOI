@@ -15,48 +15,49 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.eoi.mundobancario.dto.ClienteDto;
+import es.eoi.mundobancario.dto.ClienteSimpleDto;
+import es.eoi.mundobancario.dto.CuentaDto;
 import es.eoi.mundobancario.service.ClienteService;
 
 @RestController
 public class ClientesController {
 	
 	@Autowired
-	ClienteService service;
+	ClienteService serviceCliente;
 	
 	@GetMapping("clientes")
 	@ResponseBody
-	public ResponseEntity<List<ClienteDto>> findAll() {
-		return ResponseEntity.ok(service.findAll());
+	public ResponseEntity<List<ClienteSimpleDto>> findAll() {
+		return ResponseEntity.ok(serviceCliente.findAll());
 	}
 	
 	@GetMapping("clientes/{id}")
 	@ResponseBody
-	public ResponseEntity<ClienteDto> findClienteById(@PathVariable Integer id) {
-		return ResponseEntity.ok(service.findClienteById(id));
+	public ResponseEntity<ClienteSimpleDto> findClienteById(@PathVariable Integer id) {
+		return ResponseEntity.ok(serviceCliente.findClienteById(id));
 	}
 	
 	@PostMapping("clientes/login")
-	public ResponseEntity<ClienteDto> loginUsuario(@RequestParam String usuario, @RequestParam String pass) {
-		return ResponseEntity.ok(service.loginUsuario(usuario, pass));
+	public ResponseEntity<ClienteSimpleDto> loginUsuario(@RequestParam String usuario, @RequestParam String pass) {
+		return ResponseEntity.ok(serviceCliente.loginUsuario(usuario, pass));
 	}
 	
-	/* TODO acabar función
-	 */
 	@GetMapping("clientes/{id}/cuentas")
 	@ResponseBody
-	public ResponseEntity<ClienteDto> findCuentasUsuario(@PathVariable Integer id) {
-		return null; //ResponseEntity.ok(service.findCuentasByIdUsuario(id));
+	public ResponseEntity<List<CuentaDto>> findCuentasUsuario(@PathVariable Integer id) {
+		return ResponseEntity.ok(serviceCliente.findCuentasByIdUsuario(id));
+		
 	}
 	
 	@PutMapping("clientes/{id}")
 	public ResponseEntity<String> modifyUsuario(@RequestBody ClienteDto cliente) {
-		service.updateCliente(cliente);
+		serviceCliente.updateCliente(cliente);
 		return new ResponseEntity<String>(HttpStatus.ACCEPTED);
 	}
 	
 	@PostMapping("clientes")
 	public ResponseEntity<String> addCliente(@RequestBody ClienteDto cliente) {
-		service.crearUsuario(cliente);
+		serviceCliente.crearUsuario(cliente);
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 
