@@ -18,6 +18,6 @@ public class PrestamoDto {
 
 	//private CuentaDto cuenta;
 
-	//private List<AmortizacionDto> amortizaciones;
+	private List<AmortizacionDto> amortizaciones;
 
 }

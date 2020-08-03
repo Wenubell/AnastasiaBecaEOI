@@ -5,13 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClienteDto {
+public class ClienteSimpleDto {
 
 	private String usuario;
-	private String pass;
 	private String nombre;
 	private String email;
-	
-	
-
 }

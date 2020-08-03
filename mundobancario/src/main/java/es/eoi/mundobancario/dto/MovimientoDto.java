@@ -15,6 +15,6 @@ public class MovimientoDto {
 
 	//private CuentaDto cuenta;
 
-	//private TipoMovimientoDto tipoMovimiento;
+	private TipoMovimientoDto tipoMovimiento;
 
 }

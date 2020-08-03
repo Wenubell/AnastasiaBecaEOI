@@ -2,12 +2,12 @@
 package es.eoi.mundobancario.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.eoi.mundobancario.dto.ClienteCuentasDto;
 import es.eoi.mundobancario.dto.ClienteDto;
 import es.eoi.mundobancario.dto.ClienteSimpleDto;
 import es.eoi.mundobancario.dto.CuentaDto;
@@ -68,42 +68,16 @@ public class ClienteServiceImpl implements ClienteService {
 		}
 	}
 
-	public HashMap<ClienteSimpleDto, List<CuentaDto>> findClientesCompletos() {
+	public List<ClienteCuentasDto> findClientesCompletos() {
 
 		List<Cliente> clientes = repository.findAll();
-		List<CuentaDto> cuentasDto = new ArrayList<CuentaDto>();
-		HashMap<ClienteSimpleDto, List<CuentaDto>> todos = new HashMap<ClienteSimpleDto, List<CuentaDto>>();
+		List<ClienteCuentasDto> todos = new ArrayList<ClienteCuentasDto>();
 
 		for (Cliente cliente : clientes) {
-
-			for (Cuenta cuenta : cliente.getCuantas()) {
-				cuentasDto.add(Util.convertToCuentaDto(cuenta));
-			}
-
-			todos.put(Util.convertToClienteSimpleDto(cliente), cuentasDto);
-			cuentasDto.clear();
+			todos.add(Util.convertToClienteCuentas(cliente));
 		}
 
 		return todos;
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

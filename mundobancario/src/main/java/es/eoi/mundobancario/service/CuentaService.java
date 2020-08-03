@@ -3,17 +3,21 @@ package es.eoi.mundobancario.service;
 import java.util.List;
 
 import es.eoi.mundobancario.dto.CuentaDto;
+import es.eoi.mundobancario.dto.MovimientoDto;
+import es.eoi.mundobancario.dto.PrestamoDto;
 
 public interface CuentaService {
 
-	List<CuentaDto> findAll(); //Devuelve un listado con todas las cuentas (Toda la información y datos del cliente).
-	
-	List<CuentaDto> findAllDeudoras(); //Devuelve un listado de las cuentas con saldo negativo (Toda la información y datos del cliente).
+	public List<CuentaDto> findAllDeudoras();
 
-	CuentaDto findCuentaById(Integer id); //Devuelve la cuenta solicitada (Toda la información y datos del cliente).
+	public CuentaDto findCuentaById(Integer id);
 
-	void crearCuenta(CuentaDto cuenta); //Añadimos una nueva cuenta.
+	public void crearCuenta(CuentaDto cuenta);
 
-	void updateAliasCuenta(CuentaDto cuenta); //Modifica el campo alias de la cuenta solicitada
+	public void updateAliasCuenta(Integer id, CuentaDto cuenta);
+
+	public List<MovimientoDto> findMovimientosCuentaByIdCuenta(Integer id);
+
+	public List<PrestamoDto> findPrestamosByIdCuenta(Integer id);
 
 }
