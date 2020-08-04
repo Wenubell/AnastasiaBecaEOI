@@ -3,7 +3,6 @@ package es.eoi.mundobancario.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,11 +22,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "PRESTAMOS")
 public class Prestamo {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column
 	private String descripcion;
 	@Column
@@ -36,14 +35,12 @@ public class Prestamo {
 	private Double importe;
 	@Column
 	private int plazos;
-	
+
 	@ManyToOne
-	@JoinColumn(name="ID_CUENTA", referencedColumnName="num_cuenta")
+	@JoinColumn(name = "ID_CUENTA", referencedColumnName = "num_cuenta")
 	private Cuenta cuenta;
-	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="prestamo")
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "prestamo")
 	private List<Amortizacion> amortizaciones;
-	
-	
 
 }

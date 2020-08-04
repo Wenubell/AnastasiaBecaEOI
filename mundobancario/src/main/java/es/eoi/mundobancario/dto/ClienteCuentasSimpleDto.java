@@ -7,14 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClienteCuentasDto {
-
-	private String usuario;
-
-	private String nombre;
-
-	private String email;
+public class ClienteCuentasSimpleDto extends ClienteDto {
 
 	private List<CuentaDto> cuantas;
-
 }

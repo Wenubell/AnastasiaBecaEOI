@@ -13,8 +13,6 @@ public class MovimientoDto {
 	private Date fecha;
 	private Double importe;
 
-	//private CuentaDto cuenta;
-
 	private TipoMovimientoDto tipoMovimiento;
 
 }

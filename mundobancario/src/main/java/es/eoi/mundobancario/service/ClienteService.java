@@ -2,18 +2,17 @@ package es.eoi.mundobancario.service;
 
 import java.util.List;
 
-import es.eoi.mundobancario.dto.ClienteCuentasDto;
+import es.eoi.mundobancario.dto.ClienteCuentasSimpleDto;
 import es.eoi.mundobancario.dto.ClienteDto;
-import es.eoi.mundobancario.dto.ClienteSimpleDto;
 import es.eoi.mundobancario.dto.CuentaDto;
 
 public interface ClienteService {
 
-	public ClienteSimpleDto findClienteById(Integer id);
+	public ClienteDto findClienteById(Integer id);
 
-	public List<ClienteSimpleDto> findAll();
+	public List<ClienteDto> findAll();
 
-	public ClienteSimpleDto loginUsuario(String usuario, String pass);
+	public ClienteDto loginUsuario(String usuario, String pass);
 
 	public List<CuentaDto> findCuentasByIdUsuario(Integer id);
 
@@ -23,6 +22,6 @@ public interface ClienteService {
 	
 	//-----------------------------------------
 
-	public List<ClienteCuentasDto> findClientesCompletos();
+	public List<ClienteCuentasSimpleDto> findClientesCompletos();
 
 }

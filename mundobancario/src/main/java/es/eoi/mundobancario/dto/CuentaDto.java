@@ -11,6 +11,6 @@ public class CuentaDto {
 	private String alias;
 	private Double saldo;
 	
-	private ClienteSimpleDto cliente;
+	private ClienteDto cliente;
 
 }

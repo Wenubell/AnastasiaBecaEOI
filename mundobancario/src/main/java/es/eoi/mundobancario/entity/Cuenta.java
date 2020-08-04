@@ -21,30 +21,28 @@ import lombok.Setter;
 @Entity
 @Table(name = "CUENTAS")
 public class Cuenta {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer num_cuenta;
-	
+
 	@Column
 	private String alias;
 	@Column
 	private Double saldo;
-	
+
 	@ManyToOne
-	@JoinColumn(name="ID_CLIENTE", referencedColumnName="id")
+	@JoinColumn(name = "ID_CLIENTE", referencedColumnName = "id")
 	private Cliente cliente;
-	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="cuenta")
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cuenta")
 	private List<Movimiento> movimientos;
-	
+
 	@ManyToOne
-	@JoinColumn(name="ID_TIPO", referencedColumnName="id")
+	@JoinColumn(name = "ID_TIPO", referencedColumnName = "id")
 	private TipoMovimiento tipo;
-	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="cuenta")
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cuenta")
 	private List<Prestamo> prestamos;
-	
-	
 
 }

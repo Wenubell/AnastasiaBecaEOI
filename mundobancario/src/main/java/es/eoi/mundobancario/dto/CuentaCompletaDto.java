@@ -7,14 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CuentaMovimientosDto {
-	
-	private Integer num_cuenta;
-	private String alias;
-	private Double saldo;
-	private ClienteSimpleDto cliente;
-	
+public class CuentaCompletaDto extends CuentaDto {
+
 	private List<MovimientoDto> movimientos;
+
 	private TipoMovimientoDto tipo;
+
+	private List<PrestamoDto> prestamos;
 
 }

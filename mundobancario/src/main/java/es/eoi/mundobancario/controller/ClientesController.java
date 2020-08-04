@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.eoi.mundobancario.dto.ClienteDto;
-import es.eoi.mundobancario.dto.ClienteSimpleDto;
 import es.eoi.mundobancario.dto.CuentaDto;
 import es.eoi.mundobancario.service.ClienteService;
 
@@ -27,18 +26,18 @@ public class ClientesController {
 	
 	@GetMapping("clientes")
 	@ResponseBody
-	public ResponseEntity<List<ClienteSimpleDto>> findAll() {
+	public ResponseEntity<List<ClienteDto>> findAll() {
 		return ResponseEntity.ok(serviceCliente.findAll());
 	}
 	
 	@GetMapping("clientes/{id}")
 	@ResponseBody
-	public ResponseEntity<ClienteSimpleDto> findClienteById(@PathVariable Integer id) {
+	public ResponseEntity<ClienteDto> findClienteById(@PathVariable Integer id) {
 		return ResponseEntity.ok(serviceCliente.findClienteById(id));
 	}
 	
 	@PostMapping("clientes/login")
-	public ResponseEntity<ClienteSimpleDto> loginUsuario(@RequestParam String usuario, @RequestParam String pass) {
+	public ResponseEntity<ClienteDto> loginUsuario(@RequestParam String usuario, @RequestParam String pass) {
 		return ResponseEntity.ok(serviceCliente.loginUsuario(usuario, pass));
 	}
 	

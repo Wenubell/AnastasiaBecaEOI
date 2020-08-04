@@ -10,16 +10,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.eoi.mundobancario.dto.ClienteCuentasDto;
+import es.eoi.mundobancario.dto.ClienteCuentasSimpleDto;
 import es.eoi.mundobancario.dto.CuentaDto;
 import es.eoi.mundobancario.dto.MovimientoDto;
 import es.eoi.mundobancario.dto.PrestamoDto;
+import es.eoi.mundobancario.entity.Cuenta;
+import es.eoi.mundobancario.entity.Prestamo;
 import es.eoi.mundobancario.service.ClienteService;
 import es.eoi.mundobancario.service.CuentaService;
-import es.eoi.mundobancario.service.MovimientoService;
+import es.eoi.mundobancario.service.PrestamoService;
 
 @RestController
 public class CuentasController {
@@ -31,11 +34,11 @@ public class CuentasController {
 	ClienteService serviceClientes;
 	
 	@Autowired
-	MovimientoService serviceMovimiento;
+	PrestamoService servicePrestamo;
 
 	@GetMapping("cuentas")
 	@ResponseBody
-	public ResponseEntity<List<ClienteCuentasDto>> findClientesCompletos() {
+	public ResponseEntity<List<ClienteCuentasSimpleDto>> findClientesCompletos() {
 		return ResponseEntity.ok(serviceClientes.findClientesCompletos());
 	}
 
@@ -48,7 +51,7 @@ public class CuentasController {
 	@GetMapping("cuentas/{id}")
 	@ResponseBody
 	public ResponseEntity<CuentaDto> findClienteById(@PathVariable Integer id) {
-		return ResponseEntity.ok(serviceCuentas.findCuentaById(id));
+		return ResponseEntity.ok(serviceCuentas.findCuentaDtoById(id));
 	}
 
 	@PostMapping("cuentas")
@@ -75,35 +78,39 @@ public class CuentasController {
 		return ResponseEntity.ok(serviceCuentas.findPrestamosByIdCuenta(id));
 	}
 
-	@GetMapping("cuentas/{id}/prestamosVivos") // Devuelve los préstamos amortizados de la cuenta. (incluirán las
-												// amortizaciones planificadas)
+	@GetMapping("cuentas/{id}/prestamosVivos")
 	@ResponseBody
-	public ResponseEntity<CuentaDto> findPrestamosAmortizadosCuenta(@PathVariable Integer id) {
-		return null; // ResponseEntity.ok(service.findCuentasByIdUsuario(id));
+	public ResponseEntity<List<PrestamoDto>> findPrestamosVivosCuenta(@PathVariable Integer id) {
+		return ResponseEntity.ok(serviceCuentas.findPrestamosVivosByIdCuenta(id));
+	}
+	
+	@GetMapping("cuentas/{id}/prestamosAmortizados")
+	@ResponseBody
+	public ResponseEntity<List<PrestamoDto>> findPrestamosAmortizadosCuenta(@PathVariable Integer id) {
+		return ResponseEntity.ok(serviceCuentas.findPrestamosAmortizadosByIdCuenta(id));
 	}
 
 	@PostMapping("cuentas/{id}/prestamos")
-	public ResponseEntity<String> addPrestamo(@RequestBody CuentaDto cuenta) {
-		// service.crearCuenta(cuenta);
-		return null;
+	public ResponseEntity<String> addPrestamo(@PathVariable Integer id, @RequestBody PrestamoDto prestamo) {
+		Cuenta cuenta = serviceCuentas.findCuentaById(id);
+		Prestamo pres = servicePrestamo.creaPrestamo(prestamo, cuenta);
+		serviceCuentas.addPrestamo(id, pres);
+		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 
 	@PostMapping("cuentas/{id}/ingresos")
-	public ResponseEntity<String> addIngreso(@RequestBody CuentaDto cuenta) {
-		// service.crearCuenta(cuenta);
-		return null;
+	public ResponseEntity<String> addIngreso(@PathVariable Integer id,  @RequestParam Double importe) {
+		serviceCuentas.crearIngreso(id, importe);
+		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 
 	@PostMapping("cuentas/{id}/pagos")
-	public ResponseEntity<String> addPago(@RequestBody CuentaDto cuenta) {
-		// service.crearCuenta(cuenta);
-		return null;
+	public ResponseEntity<String> addPago(@PathVariable Integer id,  @RequestParam Double importe) {
+		serviceCuentas.crearPago(id, importe);
+		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 
-	@PostMapping("cuentas/ejecutarAmortizacionesDiarias") // Funcionalidad encargada de ejecutar las amortizaciones en
-															// caso de cuya fecha coincida con la del sistema, el
-															// funcionamiento se explica en detalle en la parte
-															// superior.
+	@PostMapping("cuentas/ejecutarAmortizacionesDiarias")
 	public ResponseEntity<String> ejecutarAmortizacionesDiarias(@RequestBody CuentaDto cuenta) {
 		// service.crearCuenta(cuenta);
 		return null;

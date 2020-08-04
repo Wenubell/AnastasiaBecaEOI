@@ -34,12 +34,17 @@ public class CuentaServiceImpl implements CuentaService {
 	}
 
 	@Override
-	public CuentaDto findCuentaById(Integer id) {
+	public CuentaDto findCuentaDtoById(Integer id) {
 		Cuenta cuenta = repository.findById(id).get();
 
 		CuentaDto cuentaDto = Util.convertToCuentaDto(cuenta);
 
 		return cuentaDto;
+	}
+
+	@Override
+	public Cuenta findCuentaById(Integer id) {
+		return repository.findById(id).get();
 	}
 
 	@Override
@@ -56,44 +61,76 @@ public class CuentaServiceImpl implements CuentaService {
 		}
 	}
 
+	@Override
 	public List<MovimientoDto> findMovimientosCuentaByIdCuenta(Integer id) {
 		Cuenta cuenta = repository.findById(id).get();
 		List<MovimientoDto> movDto = new ArrayList<MovimientoDto>();
-		
+
 		for (Movimiento mov : cuenta.getMovimientos()) {
 			movDto.add(Util.convertToMovimientoDto(mov));
 		}
-		
+
 		return movDto;
 	}
-	
+
+	@Override
 	public List<PrestamoDto> findPrestamosByIdCuenta(Integer id) {
 		Cuenta cuenta = repository.findById(id).get();
-		
+
 		List<PrestamoDto> presDto = new ArrayList<PrestamoDto>();
-		
+
 		for (Prestamo pres : cuenta.getPrestamos()) {
 			presDto.add(Util.convertToPrestamoDto(pres));
 		}
-		
+
 		return presDto;
 	}
 
+	@Override
+	public List<PrestamoDto> findPrestamosAmortizadosByIdCuenta(Integer id) {
+		// TODO
+		return null;
+	}
+
+	@Override
+	public List<PrestamoDto> findPrestamosVivosByIdCuenta(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addPrestamo(Integer id, Prestamo pres) {
+		Cuenta cuenta = repository.findById(id).get();
+		List<Prestamo> prestamos = cuenta.getPrestamos();
+		prestamos.add(pres);
+		Double saldo = cuenta.getSaldo();
+		saldo += pres.getImporte();
+		cuenta.setSaldo(saldo);
+		cuenta.setPrestamos(prestamos);
+		repository.save(cuenta);
+	}
+
+	@Override
+	public void crearIngreso(Integer id, Double importe) {
+		Cuenta cuenta = repository.findById(id).get();
+
+		cuenta.setSaldo(cuenta.getSaldo()+importe);
+
+		repository.save(cuenta);
+	}
+
+	@Override
+	public void crearPago(Integer id, Double importe) {
+		Cuenta cuenta = repository.findById(id).get();
+
+		if(cuenta.getSaldo()>0) {
+			cuenta.setSaldo(cuenta.getSaldo()-importe);
+			repository.save(cuenta);
+		}
+		else {
+			//TODO
+			//throw exception ...
+		}
+	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
