@@ -7,11 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CuentaCompletaDto extends CuentaDto {
-
-	private List<MovimientoDto> movimientos;
-
-	private TipoMovimientoDto tipo;
+public class CuentaCompletaDto extends CuentaMovimientosDto {
 
 	private List<PrestamoDto> prestamos;
 

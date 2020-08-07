@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.eoi.mundobancario.dto.ClienteDto;
-import es.eoi.mundobancario.dto.CuentaDto;
+import es.eoi.mundobancario.dto.ClientePassDto;
+import es.eoi.mundobancario.dto.CuentaCompletaDto;
 import es.eoi.mundobancario.service.ClienteService;
 
 @RestController
@@ -43,21 +44,24 @@ public class ClientesController {
 	
 	@GetMapping("clientes/{id}/cuentas")
 	@ResponseBody
-	public ResponseEntity<List<CuentaDto>> findCuentasUsuario(@PathVariable Integer id) {
+	public ResponseEntity<List<CuentaCompletaDto>> findCuentasUsuario(@PathVariable Integer id) {
 		return ResponseEntity.ok(serviceCliente.findCuentasByIdUsuario(id));
 		
 	}
 	
 	@PutMapping("clientes/{id}")
-	public ResponseEntity<String> modifyUsuario(@RequestBody ClienteDto cliente) {
-		serviceCliente.updateCliente(cliente);
+	public ResponseEntity<String> modifyUsuario(@PathVariable Integer id, @RequestBody ClientePassDto cliente) {
+		serviceCliente.updateCliente(id, cliente);
 		return new ResponseEntity<String>(HttpStatus.ACCEPTED);
 	}
 	
 	@PostMapping("clientes")
-	public ResponseEntity<String> addCliente(@RequestBody ClienteDto cliente) {
-		serviceCliente.crearUsuario(cliente);
-		return new ResponseEntity<String>(HttpStatus.CREATED);
+	public ResponseEntity<String> addCliente(@RequestBody ClientePassDto cliente) {
+		boolean creado = serviceCliente.crearUsuario(cliente);
+		if(creado) {
+			return new ResponseEntity<String>(HttpStatus.CREATED);
+		}
+		return new ResponseEntity<String>(HttpStatus.CONFLICT);
 	}
 
 }

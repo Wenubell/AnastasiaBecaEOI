@@ -38,9 +38,6 @@ public class Cuenta {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cuenta")
 	private List<Movimiento> movimientos;
 
-	@ManyToOne
-	@JoinColumn(name = "ID_TIPO", referencedColumnName = "id")
-	private TipoMovimiento tipo;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cuenta")
 	private List<Prestamo> prestamos;

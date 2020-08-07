@@ -2,15 +2,13 @@ package es.eoi.mundobancario.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class CuentaDto {
+@ToString
+public class CuentaDto extends CuentaSolaDto {
 
-	private Integer num_cuenta;
-	private String alias;
-	private Double saldo;
-	
 	private ClienteDto cliente;
 
 }

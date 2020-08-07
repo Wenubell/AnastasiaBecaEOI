@@ -12,26 +12,33 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "AMORTIZACIONES")
 public class Amortizacion {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column
 	private Date fecha;
 	@Column
 	private Double importe;
-	
+
 	@ManyToOne
-	@JoinColumn(name="ID_PRESTAMO", referencedColumnName="id")
+	@JoinColumn(name = "ID_PRESTAMO", referencedColumnName = "id")
 	private Prestamo prestamo;
 	
+	public Amortizacion(Amortizacion a) {
+		fecha = a.getFecha();
+		importe = a.getImporte();
+		prestamo = a.getPrestamo();
+	}
 
 }

@@ -7,6 +7,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class TipoMovimientoDto {
-	private String tipo;
+public class PrestamoClienteDto extends PrestamoDto {
+	ClienteDto cliente;
 }

@@ -35,7 +35,7 @@ public class Movimiento {
 	private Cuenta cuenta;
 	
 	@ManyToOne
-	@JoinColumn(name="ID_TIPOMOVIMIENTO", referencedColumnName="id")
+	@JoinColumn(name="ID_TIPO_MOVIMIENTO", referencedColumnName="id")
 	private TipoMovimiento tipoMovimiento;
 
 }

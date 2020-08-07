@@ -1,4 +1,3 @@
-
 package es.eoi.mundobancario.service;
 
 import java.util.ArrayList;
@@ -7,10 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.eoi.mundobancario.dto.ClienteCuentasMovimientosDto;
 import es.eoi.mundobancario.dto.ClienteCuentasSimpleDto;
 import es.eoi.mundobancario.dto.ClienteDto;
 import es.eoi.mundobancario.dto.ClientePassDto;
-import es.eoi.mundobancario.dto.CuentaDto;
+import es.eoi.mundobancario.dto.CuentaCompletaDto;
 import es.eoi.mundobancario.entity.Cliente;
 import es.eoi.mundobancario.entity.Cuenta;
 import es.eoi.mundobancario.repository.ClienteRepository;
@@ -21,6 +21,10 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Autowired
 	ClienteRepository repository;
+
+	public Cliente findClienteByUsuario(String usuario) {
+		return repository.findClienteByUsuario(usuario);
+	}
 
 	public ClienteDto findClienteById(Integer id) {
 		return Util.convertToClienteDto(repository.findById(id).get());
@@ -44,26 +48,24 @@ public class ClienteServiceImpl implements ClienteService {
 		return null;
 	}
 
-	public List<CuentaDto> findCuentasByIdUsuario(Integer id) {
+	public List<CuentaCompletaDto> findCuentasByIdUsuario(Integer id) {
 
 		List<Cuenta> cuentas = repository.findById(id).get().getCuantas();
-		List<CuentaDto> cuentasDto = new ArrayList<CuentaDto>();
+		List<CuentaCompletaDto> cuentasDto = new ArrayList<CuentaCompletaDto>();
 
 		for (Cuenta cuenta : cuentas) {
-			cuentasDto.add(Util.convertToCuentaDto(cuenta));
+			cuentasDto.add(Util.convertToCuentaCompletaDto(cuenta));
 		}
 
 		return cuentasDto;
 	}
 
-	public void crearUsuario(ClientePassDto dto) {
-		repository.save(Util.convertToCliente(dto));
-	}
+	@Override
+	public void updateCliente(Integer id, ClientePassDto cliente) {
+		Cliente cli = repository.findById(id).get();
 
-	public void updateCliente(ClientePassDto dto) {
-		Cliente cli = repository.findClienteByUsuario(dto.getUsuario());
-		if (cli.getPass().equals(dto.getPass())) {
-			cli.setEmail(dto.getEmail());
+		if (cli.getUsuario().equals(cliente.getUsuario()) && cli.getPass().equals(cliente.getPass())) {
+			cli.setEmail(cliente.getEmail());
 			repository.save(cli);
 		}
 	}
@@ -80,16 +82,20 @@ public class ClienteServiceImpl implements ClienteService {
 		return todos;
 	}
 
-	@Override
-	public void crearUsuario(ClienteDto cliente) {
-		// TODO Auto-generated method stub
-		
+	public boolean crearUsuario(ClientePassDto dto) {
+		Cliente u = repository.findClienteByUsuario(dto.getUsuario());
+		if( u == null) {
+			repository.save(Util.convertToCliente(dto));
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void updateCliente(ClienteDto cliente) {
-		// TODO Auto-generated method stub
-		
+	public ClienteCuentasMovimientosDto findClienteCuentasMovimientos(Integer id) {
+		Cliente cli = repository.findById(id).get();
+		ClienteCuentasMovimientosDto clienteDto = Util.convertToClienteCuentasMovimientosDto(cli);
+		return clienteDto;
 	}
 
 }
